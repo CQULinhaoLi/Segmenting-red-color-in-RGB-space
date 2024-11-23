@@ -50,3 +50,21 @@ plt.axis('off')
 plt.tight_layout()
 plt.savefig('result')
 plt.show()
+
+# 5. contrast
+plt.figure(figsize=(10, 4))
+
+plt.subplot(1, 2, 1)
+plt.imshow(image_rgb)
+plt.title('Original Image')
+plt.axis('off')
+
+
+plt.subplot(1, 2, 2)
+plt.imshow(segmented_image)
+plt.title('Segmented Red Areas')
+plt.axis('off')
+
+plt.tight_layout()
+plt.savefig('Comparing Original image and Segmented Red Areas')
+plt.show()

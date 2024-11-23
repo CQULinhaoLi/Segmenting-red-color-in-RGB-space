@@ -73,6 +73,7 @@ After running the script, the segmented red areas are displayed and saved.
 - **Segmented Red Areas**
 
 ![Result](result.png)
+![Compare](Comparing%20Original%20image%20and%20Segmented%20Red%20Areas.png)
 
 ## Customization
 
