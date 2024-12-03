@@ -49,7 +49,7 @@ project-folder/
 1. Place the input image (`peppers.jpg`) inside the `image/` directory.
 2. Run the script:
    ```bash
-   python main.py
+   python another_solution.py
    ```
 3. After execution:
    - The results will be displayed in a Matplotlib window.
@@ -72,7 +72,7 @@ After running the script, the segmented red areas are displayed and saved.
 - **R Channel Visualization**
 - **Segmented Red Areas**
 
-![Result](result.png)
+![Result](another_solution_output.png)
 ![Compare](Comparing%20Original%20image%20and%20Segmented%20Red%20Areas.png)
 
 ## Customization

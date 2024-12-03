@@ -2,69 +2,81 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 1. read image
-image = cv2.imread('image/peppers.jpg')
-image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # convert to RGB format
+# Load the image
+image = cv2.imread('image\peppers.jpg')
+# Convert BGR to RGB for visualization
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-# 2. split R,G,B channels
-R_channel = image_rgb[:, :, 0]
-G_channel = image_rgb[:, :, 1]
-B_channel = image_rgb[:, :, 2]
+# Define the target red color in RGB space
+target_red = np.array([255, 0, 0])  # Pure red
 
-# 3. Red area segmentation
-# set the mask
-red_mask = (R_channel > 150) & (R_channel > G_channel*1.1) & (R_channel > B_channel*1.1)
+# Define the threshold for segmentation
+threshold = 200
 
-# segment the image
-segmented_image = np.zeros_like(image_rgb)  # Initialize as a blask image
-segmented_image[red_mask] = image_rgb[red_mask]  # Just reserve red area
+# Calculate the Euclidean distance for each pixel
+distance = np.sqrt(
+    (image_rgb[:, :, 0] - target_red[0])**2 +
+    (image_rgb[:, :, 1] - target_red[1])**2 +
+    (image_rgb[:, :, 2] - target_red[2])**2
+)
 
-# 4. show the result
-plt.figure(figsize=(16, 8))
+# Create a binary mask where distance is within the threshold
+mask = distance <= threshold
 
+# Create segmented images for R, G, and B channels
+segmented_r = np.zeros_like(image_rgb[:, :, 0])
+segmented_g = np.zeros_like(image_rgb[:, :, 1])
+segmented_b = np.zeros_like(image_rgb[:, :, 2])
+
+segmented_r[mask] = image_rgb[:, :, 0][mask]
+segmented_g[mask] = image_rgb[:, :, 1][mask]
+segmented_b[mask] = image_rgb[:, :, 2][mask]
+
+# Combine the channels for the final segmented image
+segmented_image = np.zeros_like(image_rgb)
+segmented_image[:, :, 0] = segmented_r
+segmented_image[:, :, 1] = segmented_g
+segmented_image[:, :, 2] = segmented_b
+
+# Plot the results
+plt.figure(figsize=(15, 10))
+
+# Original image
 plt.subplot(2, 3, 1)
 plt.imshow(image_rgb)
 plt.title('Original Image')
 plt.axis('off')
 
+# Red channel
 plt.subplot(2, 3, 2)
-plt.imshow(R_channel, cmap='Reds')
-plt.title('R Channel')
+plt.imshow(segmented_r, cmap='Reds')
+plt.title('Segmented Red Channel')
 plt.axis('off')
 
+# Green channel
 plt.subplot(2, 3, 3)
-plt.imshow(G_channel, cmap='Greens')
-plt.title('G Channel')
+plt.imshow(segmented_g, cmap='Greens')
+plt.title('Segmented Green Channel')
 plt.axis('off')
 
+# Blue channel
 plt.subplot(2, 3, 4)
-plt.imshow(B_channel, cmap='Blues')
-plt.title('B Channel')
+plt.imshow(segmented_b, cmap='Blues')
+plt.title('Segmented Blue Channel')
 plt.axis('off')
 
+# Final segmented image
 plt.subplot(2, 3, 5)
 plt.imshow(segmented_image)
-plt.title('Segmented Red Areas')
+plt.title('Final Segmented Image')
+plt.axis('off')
+
+# Binary mask
+plt.subplot(2, 3, 6)
+plt.imshow(mask, cmap='gray')
+plt.title('Binary Mask')
 plt.axis('off')
 
 plt.tight_layout()
-plt.savefig('result')
-plt.show()
-
-# 5. contrast
-plt.figure(figsize=(10, 4))
-
-plt.subplot(1, 2, 1)
-plt.imshow(image_rgb)
-plt.title('Original Image')
-plt.axis('off')
-
-
-plt.subplot(1, 2, 2)
-plt.imshow(segmented_image)
-plt.title('Segmented Red Areas')
-plt.axis('off')
-
-plt.tight_layout()
-plt.savefig('Comparing Original image and Segmented Red Areas')
+plt.savefig('main_output')
 plt.show()
