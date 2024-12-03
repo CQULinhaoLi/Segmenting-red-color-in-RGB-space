@@ -1,88 +1,88 @@
 # Red Color Segmentation in an Image
 
-This project demonstrates how to segment red areas in an image using Python and the OpenCV and NumPy libraries. It includes reading an image, separating RGB channels, applying a mask for red segmentation, and visualizing the results.
+This project demonstrates how to segment red areas in an image using Python with OpenCV and NumPy. The process includes loading an image, applying segmentation in RGB space, and visualizing the results for red, green, blue channels, and the final segmented output.
 
 ## Requirements
 
-Make sure you have the following libraries installed in your Python environment:
+Ensure the following Python libraries are installed:
 
 - OpenCV
 - NumPy
 - Matplotlib
 
-You can install them using pip:
+Install them using pip:
 ```bash
 pip install opencv-python numpy matplotlib
 ```
 
 ## File Structure
 
-The following file structure is assumed:
+The project assumes the following file structure:
 ```
 project-folder/
-  |- image/       # Contains input images (e.g., peppers.jpg)
-  |- main.py    # The Python script for segmentation
-  |- result.png   # Output result after running the script
+  |- image/            # Directory containing input images (e.g., peppers.jpg)
+  |- main.py           # Python script for segmentation
+  |- main_output.png   # Visualization of segmentation results
 ```
 
-## Code Workflow
+## Workflow
 
 1. **Read the Image:**
-   - The input image is loaded from the `image/` directory.
-   - The image is converted from BGR (default OpenCV format) to RGB for proper visualization.
+   - Load the input image from the `image/` directory.
+   - Convert the image from BGR (default OpenCV format) to RGB for accurate visualization.
 
-2. **Split RGB Channels:**
-   - The image is separated into its Red (R), Green (G), and Blue (B) channels.
+2. **Define Target Red Color:**
+   - Set the target red color in RGB space (e.g., pure red `[255, 0, 0]`).
+   - Calculate the Euclidean distance between the image pixels and the target red.
 
-3. **Segment Red Areas:**
-   - A mask is created to identify red areas based on the following conditions:
-     - The red channel value is greater than 150.
-     - The red channel value is at least 10% greater than the green and blue channel values.
-   - A new image is generated, retaining only the red areas from the original image.
+3. **Create a Mask:**
+   - Generate a binary mask where the pixel color matches the target red within a specified threshold.
 
-4. **Display and Save Results:**
-   - The original image, R, G, B channels, and the segmented red area image are displayed using Matplotlib.
-   - The results are saved to `result.png`.
+4. **Segment RGB Channels:**
+   - Use the mask to extract red, green, and blue channels.
+
+5. **Combine Channels for Final Image:**
+   - Create a segmented image using the extracted channels.
+
+6. **Display and Save Results:**
+   - Visualize the original image, segmented R, G, B channels, the binary mask, and the final segmented image using Matplotlib.
+   - Save the output visualization as `main_output.png`.
 
 ## Running the Code
 
-1. Place the input image (`peppers.jpg`) inside the `image/` directory.
+1. Place the input image (`peppers.jpg`) in the `image/` directory.
 2. Run the script:
    ```bash
-   python another_solution.py
+   python main.py
    ```
-3. After execution:
-   - The results will be displayed in a Matplotlib window.
-   - The final result will also be saved as `result.png` in the same directory.
+3. Outputs:
+   - The results will be displayed using Matplotlib.
+   - The final visualization will be saved as `main_output.png`.
 
-## Output
-
-- **Original Image:** The input image in RGB format.
-- **R, G, B Channels:** Visualizations of the red, green, and blue channels, respectively.
-- **Segmented Red Areas:** The output image highlighting only the red regions of the input image.
-
-## Example
+## Results
 
 ### Input
 ![Input Image](image/peppers.jpg)
 
 ### Output
-After running the script, the segmented red areas are displayed and saved.
+The results include:
 
-- **R Channel Visualization**
-- **Segmented Red Areas**
+1. **Segmented Red Channel:** Highlights areas identified as red.
+2. **Segmented Green Channel:** Corresponding green values for red areas.
+3. **Segmented Blue Channel:** Corresponding blue values for red areas.
+4. **Binary Mask:** Shows the pixels within the red segmentation threshold.
+5. **Final Segmented Image:** Combines the segmented RGB channels.
 
-![Result](another_solution_output.png)
-![Compare](Comparing%20Original%20image%20and%20Segmented%20Red%20Areas.png)
+![Result](main_output.png)
 
 ## Customization
 
-You can adjust the red segmentation threshold in the following line:
+You can modify the segmentation threshold:
 ```python
-red_mask = (R_channel > 150) & (R_channel > G_channel*1.1) & (R_channel > B_channel*1.1)
+threshold = 200
 ```
-- Increase or decrease `150` to make the segmentation more or less sensitive to red intensity.
-- Change the `1.1` factors to adjust how much greater the red channel must be compared to the green and blue channels.
+- Decrease the threshold to make the segmentation more restrictive.
+- Increase the threshold to allow a broader range of red hues.
 
 ## License
 
